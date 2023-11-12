@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CALCULATOR</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #504949;
+            font-family: "Arial", sans-serif;
+            background-image: url('123.jpg');
+        }
+        .main {
+            max-width: 1000px;
+            background-color: yellow;
+        }
+        .calculator {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+
+        }
+        .calculator-button {
+            transition: background-color 0.3s, 
+            transform 0.2s;
+        }
+        .calculator-button:hover {
+            background-color: rgba(52, 144, 220, 0.8);
+            transform: scale(1.05);
+        }
+        .result {
+            
+            background-color: #e5e7eb;
+            color: #333;
+        }
+      
+        
+.gray-button {
+    background-color: #888;
+    color: #fff;
+}
+
+.blue-button {
+    background-color: #3490dc;
+    color: #fff;
+}
+
+.green-button {
+    background-color: #38c172;
+    color: #fff;
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+    color: crimson;
+    font-size: 50px;
+    text-decoration: underline;
+}
+
+.main {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.calculator {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.result {
+    background-color: #e5e7eb;
+    color: #333;
+    border-radius: 5px;
+    font-size: 2em;
+    text-align: right;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.calculator-button {
+    transition: background-color 0.3s, transform 0.2s;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1.5em;
+    cursor: pointer;
+    user-select: none;
+}
+
+.calculator-button:hover {
+    transform: scale(1.05);
+}
+
+    </style>
+</head>
+
+    
+
+<body>
+    <p class="title">CALCULATOR</p>
+    <div class="main">
+        <div class="calculator">
+            <div class="result" id="output">0</div>
+            <div class="grid grid-cols-4 gap-4">
+                <button class="calculator-button orange-button" onclick="clear()">C</button>
+                <button class="calculator-button orange-button" onclick="appendToScreen('%')">%</button>
+                <button class="calculator-button orange-button" onclick="appendToScreen('/')">/</button>
+                <button class="calculator-button orange-button" onclick="appendToScreen('*')">*</button>
+                <button class="calculator-button white-button" onclick="appendToScreen('7')">7</button>
+                <button class="calculator-button white-button" onclick="appendToScreen('8')">8</button>
+                <button class="calculator-button white-button" onclick="appendToScreen('9')">9</button>
+                <button class="calculator-button gray-button" onclick="appendToScreen('-')">-</button>
+                <button class="calculator-button white-button" onclick="appendToScreen('4')">4</button>
+                <button class="calculator-button white-button" onclick="appendToScreen('5')">5</button>
+                <button class="calculator-button white-button" onclick="appendToScreen('6')">6</button>
+                <button class="calculator-button gray-button" onclick="appendToScreen('+')">+</button>
+                <button class="calculator-button white-button" onclick="appendToScreen('1')">1</button>
+                <button class="calculator-button white-button" onclick="appendToScreen('2')">2</button>
+                <button class="calculator-button white-button" onclick="appendToScreen('3')">3</button>
+                <button class="calculator-button gray-button" onclick="appendToScreen('0')">0</button>
+                <button class="calculator-button white-button" onclick="appendToScreen('.')">.</button>
+                <button class="calculator-button gray-button" onclick="backspace()">X</button>
+                <button class="calculator-button green-button" onclick="evalexp()">=</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        let initialvalue = "0";
+
+        function updateScreen() {
+            document.getElementById("output").innerText = initialvalue;
+        }
+
+        function appendToScreen(value) {
+            if (initialvalue === "0") {
+                initialvalue = value;
+            } else {
+                initialvalue += value;
+            }
+            updateScreen();
+        }
+
+        function clear() {
+            initialvalue = "0";
+            updateScreen();
+        }
+
+        function evalexp() {
+            try {
+                initialvalue = eval(initialvalue).toString();
+            } catch (error) {
+                initialvalue = "Error";
+            }
+            updateScreen();
+        }
+
+        function backspace() {
+            if (initialvalue.length === 1) {
+                initialvalue = "0";
+            } else {
+                initialvalue = initialvalue.slice(0, -1);
+            }
+            updateScreen();
+        }
+
+        function handleKeyPress(event) {
+            const key = event.key;
+            if (!isNaN(key) || key === "." || key === "+" || key === "-" || key === "*" || key === "/") {
+                appendToScreen(key);
+            } else if (key === "Enter") {
+                evalexp();
+            } else if (key === "Delete" || key === "Backspace") {
+                backspace();
+            } else if (key === "Escape") {
+                clear();
+            }
+        }
+
+        document.addEventListener("keydown", handleKeyPress);
+        updateScreen();
+    </script>
+</body>
+</html>
